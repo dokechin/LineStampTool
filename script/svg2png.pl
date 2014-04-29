@@ -1,23 +1,26 @@
 #!/bin/env perl
+use strict;
+use warnings;
 use Image::LibRSVG;
 use File::Basename;
 use Archive::Zip;
-use Data::Dumper;
 
   my $rsvg = new Image::LibRSVG();
-  my @svgs = glob "./src/*.svg"; 
+  my @svgs = glob "./src/*.svg";
+  
+  mkdir "./dist";
 
-  for $svg(@svgs){
+  for my $svg(@svgs){
 
     my $svg_filename = basename($svg, '.svg');
     my $png = sprintf("./dist/%s.png", $svg_filename);
 
     my ($x,$y) = (370,320);
-    if ($svg eq "main"){
+    if ($svg_filename eq "main"){
       $x = 240;
       $y = 240;
     }
-    if ($svg eq "tab"){
+    if ($svg_filename eq "tab"){
       $x = 96;
       $y = 74;
     }
@@ -29,8 +32,13 @@ use Data::Dumper;
 
   my $zip = Archive::Zip->new();
   my $dir_member = $zip->addDirectory( 'dist/' );
+  my @pngs = glob "./dist/*.png"; 
 
-  unless ( $zip->writeToFileNamed('./stamp.zip') == AZ_OK ) {
+  for my $png(@pngs){
+    my $file_member = $zip->addFile( $png );
+  }
+
+  unless ( $zip->writeToFileNamed('./stamp.zip') == Archive::Zip::AZ_OK ) {
        die 'write error';
    }
 
