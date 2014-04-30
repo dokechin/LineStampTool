@@ -2,7 +2,7 @@ LineStampTool
 =============
 
 This tool is Line Stamp Creation Helper Tool for Inkscape.
-You must install perl environment and Image::LibRSVG module to use this tool.
+You must install perl environment, Archive::Zip and Image::LibRSVG modules.
 
 * git checkout https://github.com/dokechin/LineStampTool.git your_stamp_name
 * Template svg files have prepared in in the src folder.
